@@ -41,4 +41,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * An user can belongs to many organizations
+     */
+    public function organizations() {
+        return $this->belongsTo( Organization::class );
+    }
+
+    /**
+     * An User can control many organizations
+     */
+    public function controllingOrganizations() {
+        return $this->hasMany( Organization::class, "admin_id" );
+    }
 }
