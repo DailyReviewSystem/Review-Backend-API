@@ -55,4 +55,25 @@ class User extends Authenticatable
     public function controllingOrganizations() {
         return $this->hasMany( Organization::class, "admin_id" );
     }
+
+    /**
+     * Get User's real forms
+     */
+    public function forms() {
+        return $this->hasMany( RealForm::class );
+    }
+
+    /**
+     * Get Active Forms
+     */
+    public function scopeOpen($query) {
+        return $query->where("done", "<>", 1);
+    }
+
+    /**
+     * Get Done Forms
+     */
+    public function scopeDone($query) {
+        return $query->where("done", 1);
+    }
 }
