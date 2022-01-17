@@ -29,4 +29,20 @@ class Organization extends Model
     public function forms() {
         return $this->belongsToMany( Form::class );
     }
+
+    /**
+     * Accept User As Organization Member
+     * @param User $user
+     */
+    public function accept( User $user ) {
+        $this->users()->attach( $user );
+    }
+
+    /**
+     * Register New Form to Org
+     * @param Form $form
+     */
+    public function register( Form $form ) {
+        $this->forms()->attach( $form );
+    }
 }

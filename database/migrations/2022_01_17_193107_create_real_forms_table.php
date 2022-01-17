@@ -36,6 +36,11 @@ class CreateRealFormsTable extends Migration
              */
             $table->boolean("done")->default(false);
 
+            /**
+             * Form Date
+             */
+            $table->date("date");
+
             $table->timestamps();
         });
     }
