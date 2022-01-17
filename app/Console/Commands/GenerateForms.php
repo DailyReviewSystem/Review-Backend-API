@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Organization;
+use App\Models\RealForm;
 use Illuminate\Console\Command;
 
 class GenerateForms extends Command
@@ -38,14 +39,25 @@ class GenerateForms extends Command
      */
     public function handle()
     {
-        Organization::all()->each( function($org) {
+        $num = 0;
+        $organizations = Organization::all();
+
+        foreach ($organizations as $org ) {
             $forms = $org->forms;
+            $users = $org->users;
 
-            $org->users->each( function($user) {
-                dd( $user );
-            });
-        });
+            foreach ( $forms as $form ) {
+                foreach ($users as $user) {
+                    $num ++;
+                    RealForm::factory()->create([
+                        "user_id" => $user->id,
+                        "form_id" => $form->id,
+                    ]);
+                }
+            }
+        }
 
+        $this->info("Generate " . $num . " real-form successfully");
         return 0;
     }
 }

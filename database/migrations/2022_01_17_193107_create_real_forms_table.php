@@ -19,7 +19,7 @@ class CreateRealFormsTable extends Migration
             /**
              *  Form Data User Submitted ( In JSON Format )
              */
-            $table->string("value")->default(null);
+            $table->string("value")->nullable();
 
             /**
              * Real Form Spec of this form ( get fields )
