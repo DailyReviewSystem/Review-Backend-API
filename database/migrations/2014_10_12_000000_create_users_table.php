@@ -15,8 +15,6 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->timestamps();
 
             /**
              * Display Name of User
@@ -37,6 +35,9 @@ class CreateUsersTable extends Migration
              * Password
              */
             $table->string('password');
+
+            $table->timestamp('email_verified_at')->nullable();
+            $table->timestamps();
         });
     }
 

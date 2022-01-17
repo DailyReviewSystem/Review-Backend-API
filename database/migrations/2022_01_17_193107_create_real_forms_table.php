@@ -15,7 +15,6 @@ class CreateRealFormsTable extends Migration
     {
         Schema::create('real_forms', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
 
             /**
              *  Form Data User Submitted ( In JSON Format )
@@ -36,6 +35,8 @@ class CreateRealFormsTable extends Migration
              * Status of this Real Form ( filled or not )
              */
             $table->boolean("done")->default(false);
+
+            $table->timestamps();
         });
     }
 

@@ -15,7 +15,6 @@ class CreateFormsTable extends Migration
     {
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
 
             /**
              * Name of Form
@@ -31,6 +30,8 @@ class CreateFormsTable extends Migration
              * Creator ID of this form
              */
             $table->unsignedBigInteger("creator_id");
+
+            $table->timestamps();
         });
     }
 

@@ -15,7 +15,6 @@ class CreateOrganizationsTable extends Migration
     {
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
 
             /**
              * Name of Organization
@@ -26,6 +25,8 @@ class CreateOrganizationsTable extends Migration
              * Admin ID of Organization
              */
             $table->unsignedBigInteger("admin_id");
+
+            $table->timestamps();
         });
     }
 

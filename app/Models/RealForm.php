@@ -22,4 +22,18 @@ class RealForm extends Model
     public function form() {
         return $this->belongsTo( Form::class );
     }
+
+    /**
+     * Get Active Forms
+     */
+    public function scopeOpen($query) {
+        return $query->where("done", "<>", 1);
+    }
+
+    /**
+     * Get Done Forms
+     */
+    public function scopeDone($query) {
+        return $query->where("done", 1);
+    }
 }
