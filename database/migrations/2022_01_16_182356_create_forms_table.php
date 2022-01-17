@@ -16,6 +16,21 @@ class CreateFormsTable extends Migration
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+
+            /**
+             * Name of Form
+             */
+            $table->string("name");
+
+            /**
+             * Store all fields in JSON Format
+             */
+            $table->text("fields");
+
+            /**
+             * Creator ID of this form
+             */
+            $table->unsignedBigInteger("creator_id");
         });
     }
 
