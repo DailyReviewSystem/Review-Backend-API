@@ -2,62 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\RealFormResource;
 use App\Models\RealForm;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 
 class RealFormController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    public function index() {
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function store(Request $request) {
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function show(RealForm $realForm) {
+        $user = auth()->user();
+
+        /**
+         * Check Permission
+         * Is this your form
+         */
+        if( $realForm->user->id !== $user->id ) {
+            throw new AuthenticationException("It's not your form");
+        }
+
+        return new RealFormResource( $realForm );
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\RealForm  $realForm
-     * @return \Illuminate\Http\Response
-     */
-    public function show(RealForm $realForm)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\RealForm  $realForm
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(RealForm $realForm)
-    {
-        //
+    public function edit(RealForm $realForm) {
     }
 
     /**

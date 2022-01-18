@@ -26,10 +26,13 @@ class DatabaseSeeder extends Seeder
             "creator_id" => 1
         ]);
 
+        $user = User::first();
         $org = Organization::first();
 
-        $org->accept( User::first() );
+        $org->accept( $user );
         $org->register( $form );
+
+        $user->update([ "username" => "user" ]);
 
         Artisan::call("generate:forms");
     }

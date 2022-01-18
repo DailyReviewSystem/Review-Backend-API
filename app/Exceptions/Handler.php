@@ -39,7 +39,7 @@ class Handler extends ExceptionHandler
     {
         $this->renderable(function( AuthenticationException $e ) {
             return response()->json([
-                "msg" => "unauthenticated"
+                "msg" => $e->getMessage() ?? "unauthenticated"
             ], 401 );
         });
 

@@ -23,5 +23,7 @@ Route::group(["middleware" => "auth:sanctum"], function() {
     Route::get("/user/forms", [\App\Http\Controllers\UserController::class, "forms"]);
     Route::get("/user/forms/done", [\App\Http\Controllers\UserController::class, "done"]);
 
+    Route::get("/real/{realForm}", [\App\Http\Controllers\RealFormController::class, "show"]);
+
 //    Route::get("/user/forms", [\App\Http\Controllers\UserController::class, "forms"]);
 });

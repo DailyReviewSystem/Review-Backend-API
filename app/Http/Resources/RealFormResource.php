@@ -16,6 +16,7 @@ class RealFormResource extends JsonResource
     {
         return [
             "id" => $this->id,
+            "name" => $this->form->name,
             "value" => $this->value,
             "fields" => $this->fields(),
             "done" => 0,
