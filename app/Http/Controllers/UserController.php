@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\RealFormResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -31,12 +32,26 @@ class UserController extends Controller {
 
     /**
      * Get All User un-filled Real Forms
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function forms() {
-//        $user = auth()->user();
+        $user = auth()->user();
 
-        $user = User::first();
-        return response()->json( $user->forms );
+        return RealFormResource::collection(
+            $user->forms()->open()->get()
+        );
+    }
+
+
+    /**
+     * Return Done Forms
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function done() {
+        $user = auth()->user();
+
+        return RealFormResource::collection(
+            $user->forms()->done()->get()
+        );
     }
 }

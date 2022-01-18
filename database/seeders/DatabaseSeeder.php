@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
 
         $form = Form::create([
             "name" => "测试表单",
-            "fields" => '[{"id":"date","label":"日期","type":"hidden","value":"2021-01-16"},{"id":"week","label":"星期","type":"hidden","value":"日"},{"id":"place","label":"训练地点","type":"text","value":"123123"},{"id":"train-content","label":"训练内容","textarea":true},{"id":"train-note","label":"训练笔记","textarea":true},{"id":"train-thought","label":"训练感悟","textarea":true},{"id":"train-conclusion","label":"训练小结","textarea":true}]',
+            "fields" => '[{"id":"date","label":"日期","type":"hidden","value":"@date@"},{"id":"week","label":"星期","type":"hidden","value":"@week@"},{"id":"place","label":"训练地点","type":"text","value":"123123"},{"id":"train-content","label":"训练内容","textarea":true},{"id":"train-note","label":"训练笔记","textarea":true},{"id":"train-thought","label":"训练感悟","textarea":true},{"id":"train-conclusion","label":"训练小结","textarea":true}]',
             "creator_id" => 1
         ]);
 

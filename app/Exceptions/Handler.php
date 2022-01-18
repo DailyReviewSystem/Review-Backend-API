@@ -2,7 +2,10 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -34,8 +37,22 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function( AuthenticationException $e ) {
+            return response()->json([
+                "msg" => "unauthenticated"
+            ], 401 );
+        });
+
+        $this->renderable(function( ValidationException $e ) {
+            return response()->json([
+                "msg" => "invalid data"
+            ], 422 );
+        });
+
+        $this->renderable(function( AuthorizationException $e ) {
+            return response()->json([
+                "msg" => "unauthorized"
+            ], 403 );
         });
     }
 }
