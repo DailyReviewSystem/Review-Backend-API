@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class RealForm extends Model
 {
     use HasFactory;
+    protected $fillable = ["value", "done"];
 
     /**
      * Get User Responsible for this RealForm
@@ -53,6 +54,7 @@ class RealForm extends Model
      */
     public function fields() {
         $fields = json_decode($this->form->fields);
+        $value = json_decode($this->value);
 
         foreach ( $fields as $field ) {
             if( isset( $field->value ) &&
@@ -60,6 +62,10 @@ class RealForm extends Model
             ) {
                 $key = trim($field->value, "@");
                 $field->value = isset( $this[ $key ] ) ? $this[ $key ] : '';
+            }
+
+            if( isset($value->{$field->id} ) ) {
+                $field->value = $value->{$field->id};
             }
         }
 

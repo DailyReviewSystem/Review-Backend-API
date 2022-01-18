@@ -31,27 +31,11 @@ class UserController extends Controller {
     }
 
     /**
-     * Get All User un-filled Real Forms
+     * Get All User Real Forms
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function forms() {
         $user = auth()->user();
-
-        return RealFormResource::collection(
-            $user->forms()->open()->get()
-        );
-    }
-
-
-    /**
-     * Return Done Forms
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function done() {
-        $user = auth()->user();
-
-        return RealFormResource::collection(
-            $user->forms()->done()->get()
-        );
+        return RealFormResource::collection( $user->forms );
     }
 }

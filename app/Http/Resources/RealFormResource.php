@@ -17,10 +17,9 @@ class RealFormResource extends JsonResource
         return [
             "id" => $this->id,
             "name" => $this->form->name,
-            "value" => $this->value,
             "fields" => $this->fields(),
-            "done" => 0,
-            "date" => "2022-01-18",
+            "done" => $this->done,
+            "date" => $this->date,
         ];
     }
 }

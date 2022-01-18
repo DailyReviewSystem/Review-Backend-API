@@ -54,4 +54,32 @@ class RealFormController extends Controller
     {
         //
     }
+
+    /**
+     * Fill Data into form
+     * @param RealForm $realForm
+     */
+    public function fill(RealForm $realForm) {
+        $rules = [];
+
+        $fields = $realForm->fields();
+
+        foreach ( $fields as $field ) {
+            $rules[ $field->id ] = join("|", [
+                (isset($field->required) && $field->required) ? 'required' : 'nullable'
+            ]);
+        }
+
+        $info = request()->validate( $rules );
+        $value = json_encode($info);
+
+        $realForm->update([
+            "done" => true,
+            "value" => $value,
+        ]);
+
+        return response()->json([
+            "value" => $value
+        ]);
+    }
 }

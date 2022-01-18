@@ -21,9 +21,8 @@ Route::group(["middleware" => "auth:sanctum"], function() {
     Route::post("/auth/logout", [\App\Http\Controllers\AuthController::class, "logout"]);
 
     Route::get("/user/forms", [\App\Http\Controllers\UserController::class, "forms"]);
-    Route::get("/user/forms/done", [\App\Http\Controllers\UserController::class, "done"]);
-
     Route::get("/real/{realForm}", [\App\Http\Controllers\RealFormController::class, "show"]);
+    Route::post("/real/fill/{realForm}", [\App\Http\Controllers\RealFormController::class, "fill"]);
 
 //    Route::get("/user/forms", [\App\Http\Controllers\UserController::class, "forms"]);
 });
