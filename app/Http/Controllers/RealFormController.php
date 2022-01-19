@@ -17,12 +17,7 @@ class RealFormController extends Controller
     }
 
     public function show(RealForm $realForm) {
-        $user = auth()->user();
-
-        if( ! Gate::allows("read-write-form", $realForm) ) {
-            abort( 403 );
-        }
-
+        Gate::authorize("read-write-form", $realForm );
         return new RealFormResource( $realForm );
     }
 
@@ -57,9 +52,7 @@ class RealFormController extends Controller
      * @param RealForm $realForm
      */
     public function fill(RealForm $realForm) {
-        if( ! Gate::allows("read-write-form", $realForm) ) {
-            abort( 403 );
-        }
+        Gate::authorize("read-write-form", $realForm );
 
         $info = request()->validate( $realForm->rules() );
         $value = json_encode($info);
