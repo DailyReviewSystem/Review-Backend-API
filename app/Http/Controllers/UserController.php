@@ -3,31 +3,54 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\RealFormResource;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller {
+    /**
+     * Get All User List ( Only for admin )
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function index() {
-
-    }
-
-    public function store(Request $request) {
-    }
-
-    public function show(User $user)
-    {
-    }
-
-    public function update(Request $request, User $user)
-    {
+        Gate::authorize("manage-user");
+        return UserResource::collection( User::all() );
     }
 
     /**
-     * @param User $user
-     * Remove User
+     * Admin Can Create New User
+     * @return UserResource
      */
-    public function destroy(User $user) {
+    public function store() {
+        Gate::authorize("manage-user");
 
+        $info = request()->validate([
+            "username" => "required",
+            "display_name" => "required",
+            "email" => "required",
+            "password" => "required",
+        ]);
+
+        $user = User::create( $info );
+        return new UserResource( $user );
+    }
+
+    public function show(User $user) {
+        Gate::authorize("manage-user");
+        return new UserResource( $user );
+    }
+
+    public function update(User $user) {
+    }
+
+    public function destroy(User $user) {
+        Gate::authorize("delete-user", $user );
+        $user->delete();
+
+        return response()->json([
+            "msg" => "success"
+        ]);
     }
 
     /**

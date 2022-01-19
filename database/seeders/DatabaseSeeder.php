@@ -34,6 +34,10 @@ class DatabaseSeeder extends Seeder
 
         $user->update([ "username" => "user" ]);
 
+        User::factory()->create([
+            "username" => "admin"
+        ]);
+
         Artisan::call("generate:forms");
     }
 }

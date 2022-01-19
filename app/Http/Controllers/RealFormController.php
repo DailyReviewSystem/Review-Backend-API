@@ -6,6 +6,7 @@ use App\Http\Resources\RealFormResource;
 use App\Models\RealForm;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class RealFormController extends Controller
 {
@@ -18,12 +19,8 @@ class RealFormController extends Controller
     public function show(RealForm $realForm) {
         $user = auth()->user();
 
-        /**
-         * Check Permission
-         * Is this your form
-         */
-        if( $realForm->user->id !== $user->id ) {
-            throw new AuthenticationException("It's not your form");
+        if( ! Gate::allows("read-write-form", $realForm) ) {
+            abort( 403 );
         }
 
         return new RealFormResource( $realForm );
@@ -60,17 +57,11 @@ class RealFormController extends Controller
      * @param RealForm $realForm
      */
     public function fill(RealForm $realForm) {
-        $rules = [];
-
-        $fields = $realForm->fields();
-
-        foreach ( $fields as $field ) {
-            $rules[ $field->id ] = join("|", [
-                (isset($field->required) && $field->required) ? 'required' : 'nullable'
-            ]);
+        if( ! Gate::allows("read-write-form", $realForm) ) {
+            abort( 403 );
         }
 
-        $info = request()->validate( $rules );
+        $info = request()->validate( $realForm->rules() );
         $value = json_encode($info);
 
         $realForm->update([

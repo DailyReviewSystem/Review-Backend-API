@@ -71,4 +71,22 @@ class RealForm extends Model
 
         return $fields;
     }
+
+    /**
+     * Get Validate Rule Based on fields
+     * @return array
+     */
+    public function rules() {
+        $rules = [];
+
+        $fields = $this->fields();
+
+        foreach ( $fields as $field ) {
+            $rules[ $field->id ] = join("|", [
+                (isset($field->required) && $field->required) ? 'required' : 'nullable'
+            ]);
+        }
+
+        return $rules;
+    }
 }

@@ -6,6 +6,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -53,6 +54,25 @@ class Handler extends ExceptionHandler
             return response()->json([
                 "msg" => "unauthorized"
             ], 403 );
+        });
+
+        $this->renderable(function( HttpException $e) {
+            $msg_list = [
+                401 => "unauthenticated",
+                403 => "unauthorized",
+                422 => "invalid data",
+            ];
+
+            $msg = $e->getMessage();
+            $code = $e->getStatusCode();
+
+            if( ! isset($msg) || $msg === "" ) {
+                $msg = isset($msg_list[$code]) ? $msg_list[$code] : "WRONG";
+            }
+
+            return response()->json([
+                "msg" => $msg
+            ], $code );
         });
     }
 }
