@@ -2,62 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FormResource;
 use App\Models\Form;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class FormController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Return All Forms
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
-    {
-        //
+    public function index() {
+        Gate::authorize("access-backend");
+        return FormResource::collection( Form::all() );
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Create New Form
+     * @param Request $request
      */
-    public function create()
-    {
-        //
+    public function store(Request $request) {
+        $info = request()->validate( Form::$storeFields );
+        $form = Form::create( $info );
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * Get Detail Of Form
+     * @param Form $form
+     * @return FormResource
      */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Form  $form
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Form $form)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Form  $form
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Form $form)
-    {
-        //
+    public function show(Form $form) {
+        Gate::authorize("access-backend");
+        return new FormResource( $form );
     }
 
     /**
@@ -67,17 +45,9 @@ class FormController extends Controller
      * @param  \App\Models\Form  $form
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Form $form)
-    {
-        //
+    public function update(Request $request, Form $form) {
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Form  $form
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Form $form)
     {
         //

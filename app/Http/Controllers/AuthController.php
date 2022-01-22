@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -19,6 +20,31 @@ class AuthController extends Controller
 
         if( auth()->attempt( $info ) ) {
             $user = auth()->user();
+            $token = $user->createToken( $user->username );
+
+            return response()->json([
+                "token" => $token->plainTextToken,
+            ]);
+        }
+
+        throw ValidationException::withMessages([
+            "username" => "Wrong Credentials"
+        ]);
+    }
+
+    /**
+     * Admin Login
+     */
+    public function backendLogin() {
+        $info = request()->validate([
+            "username" => "required",
+            "password" => "required"
+        ]);
+
+        if( auth()->attempt( $info ) ) {
+            $user = auth()->user();
+            Gate::authorize("access-backend");
+
             $token = $user->createToken( $user->username );
 
             return response()->json([

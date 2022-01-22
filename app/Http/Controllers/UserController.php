@@ -25,17 +25,17 @@ class UserController extends Controller {
     public function store() {
         Gate::authorize("manage-user");
 
-        $info = request()->validate([
-            "username" => "required",
-            "display_name" => "required",
-            "email" => "required",
-            "password" => "required",
-        ]);
-
+        $info = request()->validate( User::$storeFields );
         $user = User::create( $info );
+
         return new UserResource( $user );
     }
 
+    /**
+     * Get Detail Information About User
+     * @param User $user
+     * @return UserResource
+     */
     public function show(User $user) {
         Gate::authorize("manage-user");
         return new UserResource( $user );
@@ -46,6 +46,7 @@ class UserController extends Controller {
 
     public function destroy(User $user) {
         Gate::authorize("delete-user", $user );
+
         $user->delete();
 
         return response()->json([

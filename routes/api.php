@@ -15,12 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post("/auth/login", [\App\Http\Controllers\AuthController::class, "login"]);
+Route::post("/auth/backend/login", [\App\Http\Controllers\AuthController::class, "backendLogin"]);
 
 Route::group(["middleware" => "auth:sanctum"], function() {
-    Route::get("/user", [\App\Http\Controllers\UserController::class, "index"]);
-
-    Route::resource("user", \App\Http\Controllers\UserController::class);
-
     Route::post("/auth/check", [\App\Http\Controllers\AuthController::class, "check"]);
     Route::post("/auth/logout", [\App\Http\Controllers\AuthController::class, "logout"]);
 
@@ -28,5 +25,6 @@ Route::group(["middleware" => "auth:sanctum"], function() {
     Route::get("/real/{realForm}", [\App\Http\Controllers\RealFormController::class, "show"]);
     Route::post("/real/fill/{realForm}", [\App\Http\Controllers\RealFormController::class, "fill"]);
 
-//    Route::get("/user/forms", [\App\Http\Controllers\UserController::class, "forms"]);
+    Route::apiResource("user", \App\Http\Controllers\UserController::class);
+    Route::apiResource("form", \App\Http\Controllers\FormController::class);
 });

@@ -39,5 +39,9 @@ class AuthServiceProvider extends ServiceProvider
             Gate::forUser( $user )->authorize("manage-user");
             return $user->id !== $delete->id;
         });
+
+        Gate::define("access-backend", function(User $user) {
+            return $user->username === "admin";
+        });
     }
 }

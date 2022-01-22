@@ -10,6 +10,14 @@ class Form extends Model
     use HasFactory;
 
     /**
+     * Fields That Need when create a form
+     * @var array
+     */
+    public static $storeFields = [
+
+    ];
+
+    /**
      * A form can have one creator
      */
     public function creator() {

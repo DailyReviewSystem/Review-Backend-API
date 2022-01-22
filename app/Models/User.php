@@ -13,6 +13,17 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
+     * Fields Require to create a user
+     * @var string[]
+     */
+    public static $storeFields = [
+        "username" => "required",
+        "display_name" => "required",
+        "email" => "required",
+        "password" => "required",
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
